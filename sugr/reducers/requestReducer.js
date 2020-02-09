@@ -2,7 +2,8 @@ import { Actions } from '../actions/requestActions'
 
 const initialState = { 
     requests: [],
-    id: ""
+    id: "",
+    user: ""
  }
  
  export default function (state = initialState, action) {
@@ -32,6 +33,11 @@ const initialState = {
             return {
                 ...state,
                 id: action.payload.id
+            }
+        case Actions.SETUSER:
+            return {
+                ...state,
+               user: action.payload.user
             }
         default:
             return state;

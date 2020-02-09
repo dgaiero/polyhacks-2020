@@ -1,8 +1,8 @@
-import { Body, Button, Container, Content, Footer, FooterTab, H1, Header, Icon, Left, List, ListItem, Right, Text, Title } from 'native-base';
+import { Alert, RefreshControl } from 'react-native';
+import { Body, Button, Container, Content, Footer, FooterTab, H1, H2, Header, Icon, Left, List, ListItem, Right, Text, Title } from 'native-base';
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import { firebaseAuth, firebaseDb } from '../FirebaseHelper';
 
-import { Alert } from 'react-native';
 import ApiKeys from '../constants/ApiKeys';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -97,12 +97,13 @@ class LandingScreen extends React.Component {
       reqs.push(request);*/
       console.log(reqs.length)
       for (let i = 0; i < reqs.length - 1; i++) {
-         let borrow = reqs[i].isBorrowed ? "borrow " : "";
+         let name = reqs[i].name;
+         let borrow = reqs[i].isBorrowed === "key1" ? "to borrow " : "for ";
          let plural = reqs[i].quantity == 1 ? "" : "s";
          let special = reqs[i].description === "" ? "" : "\nExtra Notes: " + reqs[i].description;
-         let item = "Seeking: " + borrow + reqs[i].quantity + " " + reqs[i].item + plural + ", Posted: " +
-            reqs[i].startTime + "." + special;
-         listView.push(<ListItem key={i} onPress={() => this._confirmRequest(i)}><Text style={{ color: "#ffffff" }} >{item}</Text></ListItem>);
+         let item = name + " is looking " + borrow + reqs[i].quantity + " " + reqs[i].item + plural + "." + special + "\n- Posted: " +
+            reqs[i].startTime;
+         listView.push(<ListItem key={i} onPress={() => this._confirmRequest(i)}><Text style={{ color: "#31393C" }} >{item}</Text></ListItem>);
       }
 
       if (listView.length == 0) {
@@ -110,10 +111,10 @@ class LandingScreen extends React.Component {
             <Content contentContainerStyle={{
                flex: 1,
                justifyContent: 'center',
-               alignContent: 'center',
-               alignItems: 'center'
+               alignItems: 'center',
             }}>
-               <H1 style={{ color: "#fff" }}>No Requests</H1>
+               <H1 style={{ color: "#31393C", alignSelf: 'center' }}>Hello {this.props.req.user}!</H1>
+               <H2 style={{ color: "#31393C", alignSelf: 'center' }}>There are no requests.</H2>
                <Button
                   light
                   style={{ marginTop: 40 }}
@@ -134,18 +135,13 @@ class LandingScreen extends React.Component {
 
    }
 
-   _test() {
-      console.log("in test");
-      return (<H1>Test</H1>)
-   }
-
    render() {
       const { navigate } = this.props.navigation;
       return (
-         <Container style={{ backgroundColor: '#31393c' }}>
-            <Header style={{ backgroundColor: '#2176FF' }}>
+         <Container style={{ backgroundColor: '#FFFFFF' }}>
+            <Header style={{ backgroundColor: '#6D7BEA' }}>
                <Body>
-                  <Title>Requests</Title>
+                  <Title>{this.props.req.user} | Requests</Title>
                </Body>
                <Right>
                   <Button hasText transparent onPress={() => this.props.navigation.navigate('Request')}>

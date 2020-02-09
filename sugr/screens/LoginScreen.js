@@ -4,15 +4,15 @@ import { Button, Container, Content, Input, Item, Text, View } from 'native-base
 // import { Col, Grid, Row } from 'react-native-easy-grid';
 import { Dimensions, Image, StatusBar } from 'react-native';
 import React, { Component } from 'react';
+// import material from './native-base-theme/variables/material';
+import {setId, setUser} from '../actions/requestActions';
 
 import { connect } from 'react-redux';
 // import getTheme from './native-base-theme/components';
 import { ids } from '../data';
-// import material from './native-base-theme/variables/material';
-import {setId} from '../actions/requestActions';
 
 const labelStyle = {
-   color: '#fff',
+   color: '#31393C',
 }
 
 const win = Dimensions.get('window');
@@ -31,6 +31,7 @@ class LoginScreen extends Component {
    updateID(username) {
       id = ids[username]
       this.props.setId(id);
+      this.props.setUser(username);
       this.props.navigation.navigate('Landing');
    }
 
@@ -38,7 +39,7 @@ class LoginScreen extends Component {
       const { navigate } = this.props.navigation;
       const { username } = this.state;
       return (
-         <Container style={{ backgroundColor: '#31393c' }}>
+         <Container style={{ backgroundColor: '#FFFFFF' }}>
             {/* <StatusBar hidden={true} /> */}
             <Content contentContainerStyle={{
                paddingHorizontal: 10,
@@ -55,7 +56,7 @@ class LoginScreen extends Component {
                <Item floatingLabel>
                   <Input
                      placeholder="Username"
-                     placeholderTextColor="#fff"
+                     placeholderTextColor="#000"
                      autoCompleteType="email"
                      keyboardType="email-address"
                      style={labelStyle}
@@ -65,12 +66,12 @@ class LoginScreen extends Component {
                   <Input
                      placeholder="Password"
                      secureTextEntry
-                     placeholderTextColor="#fff"
+                     placeholderTextColor="#000"
                      autoCompleteType="password"
                      style={labelStyle} />
                </Item>
                <Button
-                  light
+                  style = {{ backgroundColor: '#fff' }}
                   block
                   onPress={() => this.updateID(username)}
                   style={{ marginTop: 40 }}>
@@ -83,7 +84,8 @@ class LoginScreen extends Component {
 }
 
 const mapDispatchToProps = {
-   setId
+   setId,
+   setUser
 }
 
 export default connect(null,mapDispatchToProps)(LoginScreen);
