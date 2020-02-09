@@ -1,24 +1,25 @@
-import { Button, Container, Content, Footer, FooterTab, Header, Text } from 'native-base';
+import { Button, Footer, FooterTab, Text } from 'native-base';
 import React, { Component } from 'react';
-export default class FooterTabsExample extends Component {
+
+// import { withNavigation } from '@react-navigation/native';
+import { withNavigation } from 'react-navigation';
+
+class MFooter extends Component {
    render() {
+      // const {navigate} = this.props.navigation();
       return (
       <Footer>
-         <FooterTab>
-            <Button>
-               <Text>Apps</Text>
+            <FooterTab style={{ backgroundColor: "#31393C", color: "#fff" }}>
+               <Button onClick={() => this.props.navigation.navigate('Landing')}>
+                  <Text>Home</Text>
             </Button>
-            <Button>
-               <Text>Camera</Text>
-            </Button>
-            <Button active>
-               <Text>Navigate</Text>
-            </Button>
-            <Button>
-               <Text>Contact</Text>
+               <Button onClick={() => this.props.navigation.navigate('Request')}>
+                  <Text>Request</Text>
             </Button>
          </FooterTab>
       </Footer>
       );
    }
 }
+
+export default withNavigation(MFooter);

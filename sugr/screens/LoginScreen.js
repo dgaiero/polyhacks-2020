@@ -1,7 +1,15 @@
-import { Button, Container, Content, Form, Header, Input, Item, Label, Text, View } from 'native-base';
-import { Col, Grid, Row } from 'react-native-easy-grid';
+// import * as firebase from 'firebase';
+
+import { Button, Container, Content, Input, Item, Text, View } from 'native-base';
+// import { Col, Grid, Row } from 'react-native-easy-grid';
 import { Dimensions, Image, StatusBar } from 'react-native';
 import React, { Component } from 'react';
+
+import { connect } from 'react-redux';
+// import getTheme from './native-base-theme/components';
+import { ids } from '../data';
+// import material from './native-base-theme/variables/material';
+import {setId} from '../actions/requestActions';
 
 const labelStyle = {
    color: '#fff',
@@ -9,13 +17,26 @@ const labelStyle = {
 
 const win = Dimensions.get('window');
 const logoWidth = win.width - 40;
-const ratio = logoWidth / 2134; //541 is actual image width
+const ratio = logoWidth / 1026; //541 is actual image width
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
 
+   constructor(props) {
+      super(props);
+      this.state = {
+         username: ""
+      };
+  }
+
+   updateID(username) {
+      id = ids[username]
+      this.props.setId(id);
+      this.props.navigation.navigate('Landing');
+   }
 
    render() {
       const { navigate } = this.props.navigation;
+      const { username } = this.state;
       return (
          <Container style={{ backgroundColor: '#31393c' }}>
             {/* <StatusBar hidden={true} /> */}
@@ -27,8 +48,8 @@ export default class LoginScreen extends Component {
                <View style={{ alignItems: 'center', }}>
                   <Image style={{
                      width: logoWidth,
-                     height: 578 * ratio,
-                  }} source={require('../assets/sugr-logo-1024.png')} />
+                     height: 277 * ratio,
+                  }} source={require('../assets/sugr-logo-login-08.png')} />
                </View>
 
                <Item floatingLabel>
@@ -37,7 +58,8 @@ export default class LoginScreen extends Component {
                      placeholderTextColor="#fff"
                      autoCompleteType="email"
                      keyboardType="email-address"
-                     style={labelStyle}/>
+                     style={labelStyle}
+                     onChangeText={(username) => this.setState({username})}/>
                </Item>
                <Item floatingLabel>
                   <Input
@@ -50,7 +72,7 @@ export default class LoginScreen extends Component {
                <Button
                   light
                   block
-                  onPress={() => navigate('Landing')}
+                  onPress={() => this.updateID(username)}
                   style={{ marginTop: 40 }}>
                   <Text>Login</Text>
                </Button>
@@ -59,3 +81,9 @@ export default class LoginScreen extends Component {
       );
    }
 }
+
+const mapDispatchToProps = {
+   setId
+}
+
+export default connect(null,mapDispatchToProps)(LoginScreen);

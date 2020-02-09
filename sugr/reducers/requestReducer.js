@@ -2,12 +2,7 @@ import { Actions } from '../actions/requestActions'
 
 const initialState = { 
     requests: [],
-    item: "",
-    quantity: 0,
-    isBorrowed: false,
-    startTime: new Date(Date.now()),
-    endTime: new Date(Date.now()),
-    description: ""
+    id: ""
  }
  
  export default function (state = initialState, action) {
@@ -18,7 +13,6 @@ const initialState = {
                 quantity: action.payload.quantity,
                 isBorrowed: action.payload.isBorrowed,
                 startTime: action.payload.startTime,
-                endTime: action.payload.endTime,
                 description: action.payload.description
               };
             let requests = state.requests;
@@ -26,6 +20,18 @@ const initialState = {
             return {
                 ...state,
                 requests: requests
+            }
+        case Actions.REMOVE:
+            let updatedList = state.requests;
+            updatedList.splice(action.payload.index, 1);
+            return  {
+                ...state,
+                requests: updatedList
+            }
+        case Actions.SETID:
+            return {
+                ...state,
+                id: action.payload.id
             }
         default:
             return state;
